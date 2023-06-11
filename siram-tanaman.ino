@@ -81,6 +81,11 @@ void loop() {
   {
     digitalWrite(relay2, HIGH);
     previousMillis = currentMillis;
+    val = 4;
+  }
+  else 
+  {
+    val = 0;
   }
 
   if (percentage1 > 50) {
@@ -152,6 +157,20 @@ void loop() {
         digitalWrite(relay, HIGH);
         Serial.println("Keran sektor 3 dinonaktifkan");
         cektanah3();
+        delay(1000);
+      }
+      homing3();
+      break;
+    case 4 :
+      point3();
+      while ( val = 4 ) {
+        digitalWrite(relay2, LOW);
+        Serial.println("Keran penyiram pupuk diaktifkan");
+        delay(1000);
+        delay(1000);
+        penyiraman4();
+        digitalWrite(relay2, HIGH);
+        Serial.println("Keran penyiraman pupuk dinonaktifkan");
         delay(1000);
       }
       homing3();
@@ -334,6 +353,32 @@ void penyiraman3 () {
     digitalWrite(stepPin, LOW);
     delayMicroseconds(500);
     Serial.print("LANGKAH PENYIRAMAN KIRI");
+    Serial.print(x * lpersatstep);
+    Serial.println("mm");
+  }
+  delay(1000);
+}
+
+void penyiraman4 () {
+  digitalWrite(dirPin, HIGH);// arah putaran stepper berlawanan jarum jam
+  for (int x = 0; x < steplca ; x++) { //int x = 0; x < steplca ; x++
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(500);
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(500);
+    Serial.print("MENYIRAM PUPUK KE KANAN");
+    Serial.print(x * lpersatstep);
+    Serial.println("mm");
+
+  }
+  delay(1000);
+  digitalWrite(dirPin, LOW);// arah putaran stepper berlawanan jarum jam
+  for (int x = steplca; x > 0 ; x--) {
+    digitalWrite(stepPin, HIGH);
+    delayMicroseconds(500);
+    digitalWrite(stepPin, LOW);
+    delayMicroseconds(500);
+    Serial.print("MENYIRAM PUPUK KE KIRI");
     Serial.print(x * lpersatstep);
     Serial.println("mm");
   }
